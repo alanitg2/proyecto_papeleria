@@ -1,21 +1,29 @@
-# Usar una imagen de Node.js como base
+# Etapa 1: Construcción de la aplicación Angular
 FROM node:18 as build
 
-# Crear directorio de trabajo
+# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Copiar package.json y package-lock.json
+# Copiar los archivos package.json y package-lock.json
 COPY package*.json ./
 
-# Instalar dependencias
+# Instalar las dependencias
 RUN npm install
 
-# Copiar el resto del código fuente
+# Copiar el resto de la aplicación
 COPY . .
 
 # Construir la aplicación Angular
 RUN npm run build --prod
 
-# Usar una imagen de servidor Nginx para servir la aplicación
+# Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
-COPY --from=build ./dist/proyectofinal /usr/share/nginx/html
+
+# Copiar los archivos construidos desde la etapa anterior
+COPY --from=build /app/dist/proyectofinal /usr/share/nginx/html
+
+# Exponer el puerto 80
+EXPOSE 80
+
+# Comando por defecto para ejecutar Nginx
+CMD ["nginx", "-g", "daemon off;"]
