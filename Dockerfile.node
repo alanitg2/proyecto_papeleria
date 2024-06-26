@@ -1,0 +1,20 @@
+# Etapa 1: Construcción de la aplicación Node.js
+FROM node:18
+
+# Establecer el directorio de trabajo
+WORKDIR /app
+
+# Copiar los archivos package.json y package-lock.json de Node.js
+COPY backend-servidor/package*.json ./
+
+# Instalar las dependencias de Node.js
+RUN npm install
+
+# Copiar el resto de la aplicación Node.js
+COPY backend-servidor .
+
+# Exponer el puerto 3000 para la aplicación Node.js
+EXPOSE 3000
+
+# Comando por defecto para ejecutar la aplicación Node.js
+CMD ["node", "src/index.js"]
