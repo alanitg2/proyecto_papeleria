@@ -1,29 +1,33 @@
-worker_processes 1;
+version: '3.8'
 
-events { worker_connections 1024; }
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - JWT_SECRET=your_jwt_secret
+      - EMAIL_USER=your_email_user
+      - EMAIL_PASS=your_email_pass
+      - FRONTEND_URL=http://localhost:4200
+    networks:
+      - backend-network
 
-http {
-    include /etc/nginx/mime.types;
-    default_type application/octet-stream;
-    sendfile on;
-    keepalive_timeout 65;
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - node
+    networks:
+      - backend-network
 
-    server {
-        listen 80;
-
-        location / {
-            root /usr/share/nginx/html;
-            index index.html index.htm;
-            try_files $uri $uri/ /index.html;
-        }
-
-        location /api {
-            proxy_pass http://node:3000;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection 'upgrade';
-            proxy_set_header Host $host;
-            proxy_cache_bypass $http_upgrade;
-        }
-    }
-}
+networks:
+  backend-network:
+    driver: bridge
