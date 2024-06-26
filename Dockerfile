@@ -26,12 +26,8 @@ COPY --from=build /app/proyectofinal/dist/proyectofinal /usr/share/nginx/html
 # Copia el archivo de configuración de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copia el script de espera
-COPY wait-for-it.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/wait-for-it.sh
-
 # Exponer el puerto 80
 EXPOSE 80
 
-# Comando para ejecutar Nginx con el script de espera
-CMD ["wait-for-it.sh", "backend", "3000", "nginx", "-g", "daemon off;"]
+# Comando para ejecutar Nginx con una variable de entorno
+CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
