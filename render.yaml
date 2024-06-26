@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: angular-app
+    env: docker
+    region: oregon
+    rootDir: proyectofinal
+    dockerfilePath: Dockerfile
+  - type: web
+    name: node-api
+    env: docker
+    region: oregon
+    rootDir: backend-servidor
+    dockerfilePath: Dockerfile
