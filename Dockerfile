@@ -5,29 +5,33 @@ FROM node:18 as build
 WORKDIR /app
 
 # Copia el package.json y el package-lock.json desde la carpeta proyectofinal
-COPY proyectofinal/package.json ./
-COPY proyectofinal/package-lock.json ./
+COPY proyectofinal/package.json ./proyectofinal/
+COPY proyectofinal/package-lock.json ./proyectofinal/
 
 # Instala las dependencias
-RUN npm install
+RUN cd proyectofinal && npm install
 
 # Copia el resto del código de la carpeta proyectofinal
-COPY proyectofinal .
+COPY proyectofinal ./proyectofinal
 
 # Construye la aplicación para producción
-RUN npm run build --prod
+RUN cd proyectofinal && npm run build --prod
 
 # Usa una imagen base de Nginx para servir el contenido
 FROM nginx:alpine
 
 # Copia los archivos de construcción al directorio de Nginx
-COPY --from=build /app/dist/proyectofinal /usr/share/nginx/html
+COPY --from=build /app/proyectofinal/dist/proyectofinal /usr/share/nginx/html
 
 # Copia el archivo de configuración de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copia el script de espera y dale permisos de ejecución
+COPY wait-for-backend.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wait-for-backend.sh
+
 # Exponer el puerto 80
 EXPOSE 80
 
-# Comando para ejecutar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Comando para ejecutar Nginx con el script de espera
+CMD ["wait-for-backend.sh", "nginx", "-g", "daemon off;"]
