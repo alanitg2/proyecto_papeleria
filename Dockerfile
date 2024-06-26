@@ -26,6 +26,10 @@ COPY --from=build /app/proyectofinal/dist/proyectofinal /usr/share/nginx/html
 # Copia el archivo de configuración de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copia el script de espera
+COPY wait-for-it.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wait-for-it.sh
+
 # Exponer el puerto 80
 EXPOSE 80
 
