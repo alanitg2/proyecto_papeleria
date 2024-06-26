@@ -1,38 +1,29 @@
-version: '3.8'
+worker_processes 1;
 
-services:
-  nginx:
-    build: .
-    ports:
-      - "80:80"
-    depends_on:
-      - node
+events { worker_connections 1024; }
 
-  node:
-    build:
-      context: .
-      dockerfile: Dockerfile.node
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - JWT_SECRET=gE4YZF3Sq6A6rHx0H6XuVmepo152ZdEoV9P0qUBvDJwswuidgbmbrNFigy2xFSmC
-      - EMAIL_USER=notificaciones.alan.2002@gmail.com
-      - EMAIL_PASS=xckrdjpocgaanuyj
-      - FRONTEND_URL=http://localhost:4200
-    networks:
-      - backend-network
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout 65;
 
-  nginx:
-    build: .
-    ports:
-      - "80:80"
-    depends_on:
-      - node
-    networks:
-      - backend-network
+    server {
+        listen 80;
 
-networks:
-  backend-network:
-    driver: bridge
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.htm;
+            try_files $uri $uri/ /index.html;
+        }
+
+        location /api {
+            proxy_pass http://node:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+    }
+}
