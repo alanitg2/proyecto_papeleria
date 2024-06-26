@@ -9,6 +9,8 @@ services:
       - "80:80"
     depends_on:
       - backend
+    networks:
+      - app-network
 
   backend:
     build:
@@ -22,3 +24,9 @@ services:
       - FRONTEND_URL=http://localhost:4200
     ports:
       - "3000:3000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
