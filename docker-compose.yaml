@@ -1,34 +1,24 @@
 version: '3.8'
 
 services:
-  node:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  backend:
     build:
       context: .
       dockerfile: Dockerfile.node
-    container_name: node
-    ports:
-      - "3000:3000"
     environment:
-      - NODE_ENV=production
       - PORT=3000
       - JWT_SECRET=gE4YZF3Sq6A6rHx0H6XuVmepo152ZdEoV9P0qUBvDJwswuidgbmbrNFigy2xFSmC
       - EMAIL_USER=notificaciones.alan.2002@gmail.com
       - EMAIL_PASS=xckrdjpocgaanuyj
       - FRONTEND_URL=http://localhost:4200
-    networks:
-      - backend-network
-
-  nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
     ports:
-      - "80:80"
-    depends_on:
-      - node
-    networks:
-      - backend-network
-
-networks:
-  backend-network:
-    driver: bridge
+      - "3000:3000"
