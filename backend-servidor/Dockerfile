@@ -1,20 +1,20 @@
-# Usa la imagen oficial de Node.js como imagen base
+# Usar una imagen de Node.js como base
 FROM node:14
 
-# Crea y cambia al directorio de la aplicación
-WORKDIR /usr/src/app
+# Crear directorio de trabajo
+WORKDIR /app
 
-# Copia los archivos de manifiesto de dependencias de la aplicación al contenedor.
+# Copiar package.json y package-lock.json
 COPY package*.json ./
 
-# Instala las dependencias
+# Instalar dependencias
 RUN npm install
 
-# Copia el código local al contenedor.
+# Copiar el resto del código fuente
 COPY . .
 
 # Exponer el puerto
 EXPOSE 3000
 
-# Ejecuta el servicio web al iniciar el contenedor.
-CMD [ "node", "server.js" ]
+# Iniciar la aplicación
+CMD ["node", "server.js"]
