@@ -1,0 +1,45 @@
+<h2 class="mb-4">Listado de Clientes</h2>
+<ul class="list-group mb-4">
+  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let cliente of clientes">
+    <span><strong>{{ cliente.nombre }}</strong> - {{ cliente.direccion }} - {{ cliente.telefono }}</span>
+    <span>
+      <button class="btn btn-primary btn-sm mr-2" (click)="editCliente(cliente)">Editar</button>
+      <button class="btn btn-danger btn-sm" (click)="deleteCliente(cliente.id)">Eliminar</button>
+    </span>
+  </li>
+</ul>
+
+<h3 class="mt-5 mb-3">Agregar Cliente</h3>
+<form (ngSubmit)="addCliente()" class="mb-4">
+  <div class="form-group">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" class="form-control" [(ngModel)]="newCliente.nombre" name="nombre" required>
+  </div>
+  <div class="form-group">
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" class="form-control" [(ngModel)]="newCliente.direccion" name="direccion">
+  </div>
+  <div class="form-group">
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" class="form-control" [(ngModel)]="newCliente.telefono" name="telefono">
+  </div>
+  <button type="submit" class="btn btn-success">Agregar</button>
+</form>
+
+<h3 class="mt-5 mb-3" *ngIf="editMode">Editar Cliente</h3>
+<form *ngIf="editMode" (ngSubmit)="updateCliente()">
+  <div class="form-group">
+    <label for="editNombre">Nombre:</label>
+    <input type="text" id="editNombre" class="form-control" [(ngModel)]="editClienteData.nombre" name="editNombre" required>
+  </div>
+  <div class="form-group">
+    <label for="editDireccion">Dirección:</label>
+    <input type="text" id="editDireccion" class="form-control" [(ngModel)]="editClienteData.direccion" name="editDireccion">
+  </div>
+  <div class="form-group">
+    <label for="editTelefono">Teléfono:</label>
+    <input type="text" id="editTelefono" class="form-control" [(ngModel)]="editClienteData.telefono" name="editTelefono">
+  </div>
+  <button type="submit" class="btn btn-primary">Actualizar</button>
+  <button type="button" class="btn btn-secondary ml-2" (click)="cancelEdit()">Cancelar</button>
+</form>

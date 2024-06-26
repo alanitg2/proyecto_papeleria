@@ -1,0 +1,53 @@
+<h2 class="mb-4">Listado de Productos</h2>
+<ul class="list-group mb-4">
+  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let producto of productos">
+    <span>{{ producto.nombre }} - ${{ producto.precio }} - Categoría ID: {{ producto.categoria_id }} - Proveedor ID: {{ producto.proveedor_id }}</span>
+    <span>
+      <button class="btn btn-primary btn-sm mr-2" (click)="editProducto(producto)">Editar</button>
+      <button class="btn btn-danger btn-sm" (click)="deleteProducto(producto.id)">Eliminar</button>
+    </span>
+  </li>
+</ul>
+
+<h3 class="mt-5 mb-3">Agregar Producto</h3>
+<form (ngSubmit)="addProducto()" class="mb-4">
+  <div class="form-group">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" class="form-control" [(ngModel)]="newProducto.nombre" name="nombre" required>
+  </div>
+  <div class="form-group">
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" class="form-control" [(ngModel)]="newProducto.precio" name="precio" required>
+  </div>
+  <div class="form-group">
+    <label for="categoria_id">Categoría ID:</label>
+    <input type="number" id="categoria_id" class="form-control" [(ngModel)]="newProducto.categoria_id" name="categoria_id" required>
+  </div>
+  <div class="form-group">
+    <label for="proveedor_id">Proveedor ID:</label>
+    <input type="number" id="proveedor_id" class="form-control" [(ngModel)]="newProducto.proveedor_id" name="proveedor_id" required>
+  </div>
+  <button type="submit" class="btn btn-success">Agregar</button>
+</form>
+
+<h3 class="mt-5 mb-3" *ngIf="editMode">Editar Producto</h3>
+<form *ngIf="editMode" (ngSubmit)="updateProducto()">
+  <div class="form-group">
+    <label for="editNombre">Nombre:</label>
+    <input type="text" id="editNombre" class="form-control" [(ngModel)]="editProductoData.nombre" name="editNombre" required>
+  </div>
+  <div class="form-group">
+    <label for="editPrecio">Precio:</label>
+    <input type="number" id="editPrecio" class="form-control" [(ngModel)]="editProductoData.precio" name="editPrecio" required>
+  </div>
+  <div class="form-group">
+    <label for="editCategoriaId">Categoría ID:</label>
+    <input type="number" id="editCategoriaId" class="form-control" [(ngModel)]="editProductoData.categoria_id" name="editCategoriaId" required>
+  </div>
+  <div class="form-group">
+    <label for="editProveedorId">Proveedor ID:</label>
+    <input type="number" id="editProveedorId" class="form-control" [(ngModel)]="editProductoData.proveedor_id" name="editProveedorId" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Actualizar</button>
+  <button type="button" class="btn btn-secondary ml-2" (click)="cancelEdit()">Cancelar</button>
+</form>

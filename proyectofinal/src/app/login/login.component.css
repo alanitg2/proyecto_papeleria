@@ -1,0 +1,22 @@
+.card {
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .card-body {
+    padding: 30px;
+  }
+  
+  h2 {
+    color: #343a40;
+  }
+  
+  .btn-block {
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .alert {
+    margin-top: 20px;
+  }
+  

@@ -1,0 +1,45 @@
+<h2 class="mb-4">Listado de Proveedores</h2>
+<ul class="list-group mb-4">
+  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let proveedor of proveedores">
+    <span>{{ proveedor.nombre }} - {{ proveedor.contacto_nombre }} - {{ proveedor.contacto_telefono }}</span>
+    <span>
+      <button class="btn btn-primary btn-sm mr-2" (click)="editProveedor(proveedor)">Editar</button>
+      <button class="btn btn-danger btn-sm" (click)="deleteProveedor(proveedor.id)">Eliminar</button>
+    </span>
+  </li>
+</ul>
+
+<h3 class="mt-5 mb-3">Agregar Proveedor</h3>
+<form (ngSubmit)="addProveedor()" class="mb-4">
+  <div class="form-group">
+    <label for="nombre">Empresa:</label>
+    <input type="text" id="nombre" class="form-control" [(ngModel)]="newProveedor.nombre" name="nombre" required>
+  </div>
+  <div class="form-group">
+    <label for="contacto_nombre">Nombre de contacto:</label>
+    <input type="text" id="contacto_nombre" class="form-control" [(ngModel)]="newProveedor.contacto_nombre" name="contacto_nombre">
+  </div>
+  <div class="form-group">
+    <label for="contacto_telefono">Teléfono:</label>
+    <input type="text" id="contacto_telefono" class="form-control" [(ngModel)]="newProveedor.contacto_telefono" name="contacto_telefono">
+  </div>
+  <button type="submit" class="btn btn-success">Agregar</button>
+</form>
+
+<h3 class="mt-5 mb-3" *ngIf="editMode">Editar Proveedor</h3>
+<form *ngIf="editMode" (ngSubmit)="updateProveedor()">
+  <div class="form-group">
+    <label for="editNombre">Empresa:</label>
+    <input type="text" id="editNombre" class="form-control" [(ngModel)]="editProveedorData.nombre" name="editNombre" required>
+  </div>
+  <div class="form-group">
+    <label for="editContactoNombre">Nombre de contacto:</label>
+    <input type="text" id="editContactoNombre" class="form-control" [(ngModel)]="editProveedorData.contacto_nombre" name="editContactoNombre">
+  </div>
+  <div class="form-group">
+    <label for="editContactoTelefono">Teléfono:</label>
+    <input type="text" id="editContactoTelefono" class="form-control" [(ngModel)]="editProveedorData.contacto_telefono" name="editContactoTelefono">
+  </div>
+  <button type="submit" class="btn btn-primary">Actualizar</button>
+  <button type="button" class="btn btn-secondary ml-2" (click)="cancelEdit()">Cancelar</button>
+</form>

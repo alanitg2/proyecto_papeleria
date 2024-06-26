@@ -1,0 +1,37 @@
+<h2 class="mb-4">Listado de Categorías</h2>
+<ul class="list-group mb-4">
+  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let categoria of categorias">
+    <span><strong>{{ categoria.nombre }}</strong> - {{ categoria.descripcion }}</span>
+    <span>
+      <button class="btn btn-primary btn-sm mr-2" (click)="editCategoria(categoria)">Editar</button>
+      <button class="btn btn-danger btn-sm" (click)="deleteCategoria(categoria.id)">Eliminar</button>
+    </span>
+  </li>
+</ul>
+
+<h3 class="mt-5 mb-3">Agregar Categoría</h3>
+<form (ngSubmit)="addCategoria()" class="mb-4">
+  <div class="form-group">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" class="form-control" [(ngModel)]="newCategoria.nombre" name="nombre" required>
+  </div>
+  <div class="form-group">
+    <label for="descripcion">Descripción:</label>
+    <input type="text" id="descripcion" class="form-control" [(ngModel)]="newCategoria.descripcion" name="descripcion">
+  </div>
+  <button type="submit" class="btn btn-success">Agregar</button>
+</form>
+
+<h3 class="mt-5 mb-3" *ngIf="editMode">Editar Categoría</h3>
+<form *ngIf="editMode" (ngSubmit)="updateCategoria()">
+  <div class="form-group">
+    <label for="editNombre">Nombre:</label>
+    <input type="text" id="editNombre" class="form-control" [(ngModel)]="editCategoriaData.nombre" name="editNombre" required>
+  </div>
+  <div class="form-group">
+    <label for="editDescripcion">Descripción:</label>
+    <input type="text" id="editDescripcion" class="form-control" [(ngModel)]="editCategoriaData.descripcion" name="editDescripcion">
+  </div>
+  <button type="submit" class="btn btn-primary">Actualizar</button>
+  <button type="button" class="btn btn-secondary ml-2" (click)="cancelEdit()">Cancelar</button>
+</form>

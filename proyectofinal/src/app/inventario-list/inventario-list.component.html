@@ -1,0 +1,37 @@
+<h2 class="mb-4">Listado de Inventarios</h2>
+<ul class="list-group mb-4">
+  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let inventario of inventarios">
+    <span><strong>Producto ID:</strong> {{ inventario.producto_id }} - <strong>Cantidad:</strong> {{ inventario.cantidad }}</span>
+    <span>
+      <button class="btn btn-primary btn-sm mr-2" (click)="editInventario(inventario)">Editar</button>
+      <button class="btn btn-danger btn-sm" (click)="deleteInventario(inventario.producto_id)">Eliminar</button>
+    </span>
+  </li>
+</ul>
+
+<h3 class="mt-5 mb-3">Agregar Inventario</h3>
+<form (ngSubmit)="addInventario()" class="mb-4">
+  <div class="form-group">
+    <label for="producto_id">Producto ID:</label>
+    <input type="number" id="producto_id" class="form-control" [(ngModel)]="newInventario.producto_id" name="producto_id" required>
+  </div>
+  <div class="form-group">
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" class="form-control" [(ngModel)]="newInventario.cantidad" name="cantidad" required>
+  </div>
+  <button type="submit" class="btn btn-success">Agregar</button>
+</form>
+
+<h3 class="mt-5 mb-3" *ngIf="editMode">Editar Inventario</h3>
+<form *ngIf="editMode" (ngSubmit)="updateInventario()">
+  <div class="form-group">
+    <label for="editProductoId">Producto ID:</label>
+    <input type="number" id="editProductoId" class="form-control" [(ngModel)]="editInventarioData.producto_id" name="editProductoId" required>
+  </div>
+  <div class="form-group">
+    <label for="editCantidad">Cantidad:</label>
+    <input type="number" id="editCantidad" class="form-control" [(ngModel)]="editInventarioData.cantidad" name="editCantidad" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Actualizar</button>
+  <button type="button" class="btn btn-secondary ml-2" (click)="cancelEdit()">Cancelar</button>
+</form>
