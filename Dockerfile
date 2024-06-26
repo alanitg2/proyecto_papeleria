@@ -26,12 +26,8 @@ COPY --from=build /app/proyectofinal/dist/proyectofinal /usr/share/nginx/html
 # Copia el archivo de configuración de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copia el script de espera y dale permisos de ejecución
-COPY wait-for-backend.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/wait-for-backend.sh
+# Añade una simple espera en el Dockerfile para esperar al backend
+CMD /bin/sh -c "while ! nc -z backend 3000; do echo 'Esperando a que el backend esté disponible...'; sleep 5; done; nginx -g 'daemon off;'"
 
 # Exponer el puerto 80
 EXPOSE 80
-
-# Comando para ejecutar Nginx con el script de espera
-CMD ["wait-for-backend.sh", "nginx", "-g", "daemon off;"]
