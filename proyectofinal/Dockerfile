@@ -18,4 +18,4 @@ RUN npm run build --prod
 
 # Usar una imagen de servidor Nginx para servir la aplicación
 FROM nginx:alpine
-COPY --from=build /app/dist/proyectofinal /usr/share/nginx/html
+COPY --from=build ./dist/proyectofinal /usr/share/nginx/html
