@@ -4,15 +4,15 @@ FROM node:18 as build
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el package.json y el package-lock.json
-COPY package.json ./
-COPY package-lock.json ./
+# Copia el package.json y el package-lock.json desde la carpeta proyectofinal
+COPY proyectofinal/package.json ./
+COPY proyectofinal/package-lock.json ./
 
 # Instala las dependencias
 RUN npm install
 
-# Copia el resto del código de la aplicación
-COPY . .
+# Copia el resto del código de la carpeta proyectofinal
+COPY proyectofinal .
 
 # Construye la aplicación para producción
 RUN npm run build --prod
