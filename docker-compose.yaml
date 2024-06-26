@@ -5,14 +5,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.node
+    container_name: node
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - JWT_SECRET=your_jwt_secret
-      - EMAIL_USER=your_email_user
-      - EMAIL_PASS=your_email_pass
+      - JWT_SECRET=gE4YZF3Sq6A6rHx0H6XuVmepo152ZdEoV9P0qUBvDJwswuidgbmbrNFigy2xFSmC
+      - EMAIL_USER=notificaciones.alan.2002@gmail.com
+      - EMAIL_PASS=xckrdjpocgaanuyj
       - FRONTEND_URL=http://localhost:4200
     networks:
       - backend-network
